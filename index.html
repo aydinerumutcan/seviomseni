@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seviom seni bi tanem</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            background-color: #e6fffa; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; 
+            position: relative;
+        }
+
+        
+        #counter-container {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3436; 
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            z-index: 100; 
+        }
+
+        #count {
+            color: #00b894; 
+        }
+
+        
+        #love-button {
+            font-size: 2rem;
+            padding: 20px 50px;
+            cursor: pointer;
+            
+            background-color: #00b894;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0, 184, 148, 0.3);
+            transition: transform 0.1s, background-color 0.3s, box-shadow 0.3s;
+            z-index: 10;
+            outline: none;
+        }
+
+        
+        #love-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 10px rgba(0, 184, 148, 0.2);
+        }
+
+        #love-button:hover {
+            
+            background-color: #00947a;
+        }
+
+        
+        .heart-particle {
+            position: absolute;
+            color: #55efc4; 
+            font-size: 1.5rem;
+            pointer-events: none; 
+            animation: flyUp 1.5s linear forwards;
+            opacity: 0;
+            z-index: 5;
+        }
+
+        
+        @keyframes flyUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                
+                transform: translateY(-150px) translateX(var(--random-x)) rotate(var(--random-deg));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="counter-container">
+        Seni <span id="count">0</span> kere sevmek ben!
+    </div>
+
+    <button id="love-button">Seni seviom</button>
+
+    <script>
+        let count = 0;
+        const button = document.getElementById('love-button');
+        const countDisplay = document.getElementById('count');
+
+        button.addEventListener('click', (e) => {
+            
+            count++;
+            countDisplay.textContent = count;
+
+            
+            createHearts(e.clientX, e.clientY);
+        });
+
+        function createHearts(x, y) {
+            
+            for (let i = 0; i < 5; i++) {
+                const heart = document.createElement('span');
+                heart.classList.add('heart-particle');
+                heart.textContent = '💚'; 
+
+                
+                heart.style.left = (x - 15) + 'px'; 
+                heart.style.top = (y - 15) + 'px';
+
+                
+                const randomX = (Math.random() - 0.5) * 100 + 'px'; 
+                const randomDeg = (Math.random() - 0.5) * 90 + 'deg'; 
+                heart.style.setProperty('--random-x', randomX);
+                heart.style.setProperty('--random-deg', randomDeg);
+
+                
+                document.body.appendChild(heart);
+
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
